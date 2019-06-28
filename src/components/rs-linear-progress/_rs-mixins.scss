@@ -1,0 +1,27 @@
+@mixin rs-linear-progress-type($type: indeterminate, $option: none) {
+  --rs-linear-progres-indeterminate: #{$type == indeterminate};
+  --rs-linear-progres-reversed: #{$option == reversed};
+  --rs-linear-progres-close: #{$option == close};
+}
+
+@mixin rs-linear-progress-bar-color($color) {
+  --rs-linear-progress__bar-inner--background-color: #{$color};
+}
+
+@mixin rs-linear-progress-buffer-color($color) {
+  --rs-linear-progress-buffer--background-color: #{$color};
+  --rs-linear-progress__buffering-dots--background-image: #{$color};
+}
+// Based on https://css-tricks.com/snippets/sass/str-replace-function/
+@function rs-linear-progress-str-replace_($string, $search, $replace) {
+  $index: str-index($string, $search);
+
+  @if $index {
+    $head: str-slice($string, 1, $index - 1);
+    $tail: rs-linear-progress-str-replace_(str-slice($string, $index + str-length($search)), $search, $replace);
+
+    @return $head + $replace + $tail;
+  }
+
+  @return $string;
+}

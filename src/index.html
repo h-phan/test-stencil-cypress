@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0">
+  <title>Stencil Component Starter</title>
+
+  <script type="module" src="/build/stencil-component-demo.esm.js"></script>
+  <script nomodule src="/build/stencil-component-demo.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/jaysunsyn/cypress-daywalker@0.2.0/cypress-daywalker.js"></script>
+  <script src="https://cdn.rawgit.com/medialize/sass.js/master/dist/sass.sync.js"></script>
+
+</head>
+<body>
+
+  <my-component></my-component>
+  <my-component first="Stencil" last="'Don't call me a framework' JS"></my-component>
+  <rs-linear-progress class="download-progress" progress="0.3" buffer="0.5"></rs-linear-progress>
+  <br/>
+  <style type="text/scss">
+    .download-progress {
+      @include rs-linear-progress-type("");
+      @include rs-linear-progress-bar-color("#6200ff");
+      @include rs-linear-progress-buffer-color("#000");
+    }
+  </style>
+  <script>
+    (async function() {
+      const res = await fetch('./components/rs-linear-progress/_rs-mixins.scss')
+      console.log(res)
+      const mixinScss = await res.text()
+      const styleScss = document.querySelector('style[type="text/scss"]').textContent
+      console.log(styleScss)
+      Sass.compile(mixinScss + styleScss, result => {
+        style = document.createElement('style')
+        style.type = 'text/css'
+        style.appendChild(document.createTextNode(result.text))
+      console.log(result)
+        document.head.appendChild(style)
+      })
+    })()
+  </script>
+</body>
+</html>
